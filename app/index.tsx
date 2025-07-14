@@ -49,16 +49,17 @@ function AzzahGrid() {
     setImageStates((prev) =>
       prev.map((state, i) => {
         if (i === index) {
-          if (state.clickCount < 2) {
-            return {
-              clicked: true,
-              scale: state.scale + 0.2,
-              clickCount: state.clickCount + 1,
-            };
-          } else {
-            return state;
-          }
+          const newScale = state.scale + 0.2;
+          // Pembatasan skala maksimum hingga 2x
+          const clampedScale = Math.min(newScale, 2.0);
+          
+          return {
+            clicked: !state.clicked, // Toggle gambar alternatif
+            scale: clampedScale,
+            clickCount: state.clickCount + 1,
+          };
         } else {
+          // Reset semua gambar lain ke state awal
           return { clicked: false, scale: 1, clickCount: 0 };
         }
       })
@@ -80,6 +81,7 @@ function AzzahGrid() {
                 style={[
                   styles.image,
                   {
+                    // Implementasi scaling gambar yang dapat mencapai maksimum 2x
                     transform: [{ scale }],
                     zIndex: scale > 1 ? 1 : 0,
                   },
@@ -93,7 +95,7 @@ function AzzahGrid() {
   );
 }
 
-const styles = StyleSheet.create({
+  const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f4f4f4",
@@ -112,5 +114,7 @@ const styles = StyleSheet.create({
     height: 120,
     margin: 10,
     borderRadius: 8,
+    // Memastikan semua sel gambar memiliki ukuran yang sama
+    resizeMode: 'cover',
   },
 });
