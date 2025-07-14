@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, ScrollView, Text, View, StyleSheet, Pressable} from "react-native";
+import { Image, Pressable, ScrollView, StyleSheet, View } from "react-native";
 
 export default function Index() {
   return (
@@ -51,17 +51,19 @@ function AzzahGrid() {
         if (i === index) {
           if (state.clickCount < 2) {
             const newScale = state.scale + 0.2;
-            
+
             return {
-              clicked: true, 
+              clicked: true,
               scale: newScale,
               clickCount: state.clickCount + 1,
             };
           } else {
+           
             return state;
           }
         } else {
-          return { clicked: false, scale: 1, clickCount: 0 };
+          
+          return state;
         }
       })
     );
@@ -95,7 +97,7 @@ function AzzahGrid() {
   );
 }
 
-  const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f4f4f4",
@@ -114,6 +116,6 @@ function AzzahGrid() {
     height: 120,
     margin: 10,
     borderRadius: 8,
-    resizeMode: 'cover',
+    resizeMode: "cover",
   },
 });
