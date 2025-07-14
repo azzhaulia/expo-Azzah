@@ -136,8 +136,6 @@ function AzzahGrid() {
               scale: state.scale + 0.2,
               clickCount: state.clickCount + 1,
             };
-          } else {
-            return state;
           }
         } else {
           return { clicked: false, scale: 1, clickCount: 0 };
@@ -178,7 +176,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f4f4f4",
-    justifyContent: "center",
     alignItems: "center",
     marginTop: 30,
   },
