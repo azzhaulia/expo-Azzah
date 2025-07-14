@@ -42,28 +42,41 @@ function AzzahGrid() {
   ];
 
   const [imageStates, setImageStates] = useState(
-    Array(9).fill({ clicked: false, scale: 1, clickCount: 0 })
+    Array(9).fill({ clicked: false, scale: 1, clickCount: 0, canClick: true, cycle: 0 })
   );
 
   const handlePress = (index: number) => {
     setImageStates((prev) =>
       prev.map((state, i) => {
         if (i === index) {
-          if (state.clickCount < 2) {
-            const newScale = state.scale + 0.2;
-
-            return {
-              clicked: true,
-              scale: newScale,
-              clickCount: state.clickCount + 1,
-            };
-          } else {
-           
+          if (!state.canClick) {
             return state;
           }
-        } else {
+          const newClickCount = state.clickCount + 1;
+          const newScale = 1 + (newClickCount * 0.2);
           
-          return state;
+          if (newClickCount <= 2) {
+            const isAlternative = state.cycle % 2 === 0;
+            
+            return {
+              clicked: isAlternative, 
+              scale: newScale,
+              clickCount: newClickCount,
+              canClick: newClickCount < 2, 
+              cycle: state.cycle, 
+            };
+          } else {
+            return state; 
+          }
+        } else {
+         
+          return {
+            clicked: state.clicked, 
+            scale: 1, 
+            clickCount: 0, 
+            canClick: true, 
+            cycle: state.clickCount >= 2 ? state.cycle + 1 : state.cycle, 
+          };
         }
       })
     );
@@ -74,7 +87,8 @@ function AzzahGrid() {
       <View style={styles.grid}>
         {gambarUtama.map((main, index) => {
           const state = imageStates[index];
-          const imageSource = state.clicked ? gambarAlternatif[index] : main;
+       
+          const imageSource = state.clicked === true ? gambarAlternatif[index] : main;
           const scale = state.scale;
 
           return (
