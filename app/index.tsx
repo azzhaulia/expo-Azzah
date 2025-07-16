@@ -1,105 +1,80 @@
 import React, { useState } from "react";
-import { Image, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, View, Image, StyleSheet, Pressable } from "react-native";
 
-export default function Index() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <AzzahGrid />
-      </ScrollView>
-    </View>
-  );
-}
-function AzzahGrid() {
-  const gambarUtama = [
-    "https://shopee.co.id/inspirasi-shopee/wp-content/uploads/2022/06/pSpnkIiaRmsaQDu3ipmiA_thumb_469.webp",
-    "https://shopee.co.id/inspirasi-shopee/wp-content/uploads/2022/06/VAvnaeUqSTGG4woQa3tmgQ_thumb_46a.webp",
-    "https://shopee.co.id/inspirasi-shopee/wp-content/uploads/2022/06/hpt3FfxwTdee11isxV0Ylg_thumb_46b.webp",
-    "https://shopee.co.id/inspirasi-shopee/wp-content/uploads/2022/06/tlNysh7vTku-wgLB8rXr3g_thumb_46c.webp",
-    "https://shopee.co.id/inspirasi-shopee/wp-content/uploads/2022/06/GcLU4eyLTZiSrgJfCgAkEg_thumb_46d.webp",
-    "https://www.ancol.com/blog/wp-content/uploads/2022/11/tempat-wisata-hits-di-indonesia.jpg",
-    "https://shopee.co.id/inspirasi-shopee/wp-content/uploads/2022/06/jttO0PTeS5WYFOJ2MwDyZA_thumb_46f.webp",
-    "https://shopee.co.id/inspirasi-shopee/wp-content/uploads/2022/06/mpGDXVHoSzKsqkWsopmjWg_thumb_470.webp",
-    "https://auto2000.co.id/berita-dan-tips/_next/image?url=https%3A%2F%2Fastradigitaldigiroomuat.blob.core.windows.net%2Fstorage-uat-001%2Ftempat-wisata-di-indonesia.jpg&w=1024&q=75",
-  ];
+const sumberAsli = [
+  require("../assets/images/Gambar_utama/Gambar_1.jpg"),
+  require("../assets/images/Gambar_utama/Gambar_2.webp"),
+  require("../assets/images/Gambar_utama/Gambar_3.webp"),
+  require("../assets/images/Gambar_utama/Gambar_4.webp"),
+  require("../assets/images/Gambar_utama/Gambar_5.webp"),
+  require("../assets/images/Gambar_utama/Gambar_6.webp"),
+  require("../assets/images/Gambar_utama/Gambar_7.webp"),
+  require("../assets/images/Gambar_utama/Gambar_8.webp"),
+  require("../assets/images/Gambar_utama/Gambar_9.jpg"),
+];
 
-  const gambarAlternatif = [
-    "https://awsimages.detik.net.id/community/media/visual/2021/11/26/coto-makassar-1_169.jpeg?w=620",
-    "https://awsimages.detik.net.id/community/media/visual/2020/08/27/sop-konro-makassar_169.jpeg?w=620",
-    "https://awsimages.detik.net.id/community/media/visual/2016/05/01/774e2f30-1ee4-4984-b216-28fbd9249c3f_169.jpg?w=620",
-    "https://awsimages.detik.net.id/community/media/visual/2022/05/15/pallu-cela-makanan-khas-makassar_169.jpeg?w=620",
-    "https://awsimages.detik.net.id/community/media/visual/2022/03/20/kuliner-makassar_169.jpeg?w=620",
-    "https://awsimages.detik.net.id/community/media/visual/2022/04/02/kue-jalangkote-khas-sulsel_169.jpeg?w=620",
-    "https://awsimages.detik.net.id/community/media/visual/2021/08/16/gogos-kambu_169.jpeg?w=620",
-    "https://awsimages.detik.net.id/community/media/visual/2016/06/12/2c6f4666-d5b8-422c-a661-9fe04ab20a1c_169.jpg?w=620",
-    "https://awsimages.detik.net.id/community/media/visual/2021/05/25/resep-pisang-epe-khas-makassar-1_169.jpeg?w=620",
-  ];
+const versiAlternatif = [
+  require("../assets/images/Gambar_alternatif/Gambar_1.jpg"),
+  require("../assets/images/Gambar_alternatif/Gambar_2.jpeg"),
+  require("../assets/images/Gambar_alternatif/Gambar_3.jpg"),
+  require("../assets/images/Gambar_alternatif/Gambar_4.jpeg"),
+  require("../assets/images/Gambar_alternatif/Gambar_5.jpeg"),
+  require("../assets/images/Gambar_alternatif/Gambar_6.jpg"),
+  require("../assets/images/Gambar_alternatif/Gambar_7.webp"),
+  require("../assets/images/Gambar_alternatif/Gambar_8.jpg"),
+  require("../assets/images/Gambar_alternatif/Gambar_9.jpg"),
+];
 
-  const [imageStates, setImageStates] = useState(
-    Array(9).fill({ clicked: false, scale: 1, clickCount: 0, canClick: true, cycle: 0 })
-  );
+export default function GaleriInteraktif() {
+  const jumlahGambar = 9;
+  const inisialisasi = Array(jumlahGambar).fill({
+    sudahKlik: false,
+    ukuran: 1,
+    totalKlik: 0,
+  });
 
-  const handlePress = (index: number) => {
-    setImageStates((prev) =>
-      prev.map((state, i) => {
-        if (i === index) {
-          if (!state.canClick) {
-            return state;
-          }
-          const newClickCount = state.clickCount + 1;
-          const newScale = 1 + (newClickCount * 0.2);
-          
-          if (newClickCount <= 2) {
-            const isAlternative = state.cycle % 2 === 0;
-            
+  const [statusGambar, setStatusGambar] = useState(inisialisasi);
+
+  const ubahStatusGambar = (posisi: number) => {
+    setStatusGambar((dataLama) =>
+      dataLama.map((data, idx) => {
+        if (idx === posisi) {
+          if (data.totalKlik < 2) {
             return {
-              clicked: isAlternative, 
-              scale: newScale,
-              clickCount: newClickCount,
-              canClick: newClickCount < 2, 
-              cycle: state.cycle, 
+              sudahKlik: true,
+              ukuran: 1 + 0.2 * (data.totalKlik + 1),
+              totalKlik: data.totalKlik + 1,
             };
-          } else {
-            return state; 
           }
+          return data;
         } else {
-         
-          return {
-            clicked: state.clicked, 
-            scale: 1, 
-            clickCount: 0, 
-            canClick: true, 
-            cycle: state.clickCount >= 2 ? state.cycle + 1 : state.cycle, 
-          };
+          return { sudahKlik: false, ukuran: 1, totalKlik: 0 };
         }
       })
     );
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.grid}>
-        {gambarUtama.map((main, index) => {
-          const state = imageStates[index];
-       
-          const imageSource = state.clicked === true ? gambarAlternatif[index] : main;
-          const scale = state.scale;
+    <ScrollView contentContainerStyle={gaya.bungkus}>
+      <View style={gaya.lapak}>
+        {sumberAsli.map((foto, idx) => {
+          const kondisi = statusGambar[idx];
+          const yangDitampilkan = kondisi.sudahKlik
+            ? versiAlternatif[idx]
+            : foto;
 
           return (
-            <Pressable key={index} onPress={() => handlePress(index)}>
+            <Pressable
+              key={idx}
+              onPress={() => ubahStatusGambar(idx)}
+              disabled={kondisi.totalKlik >= 2}
+            >
               <Image
-                source={{ uri: imageSource }}
+                source={yangDitampilkan}
                 style={[
-                  styles.image,
+                  gaya.foto,
                   {
-                    transform: [{ scale }],
-                    zIndex: scale > 1 ? 1 : 0,
+                    transform: [{ scale: kondisi.ukuran }],
                   },
                 ]}
               />
@@ -107,29 +82,26 @@ function AzzahGrid() {
           );
         })}
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f4f4f4",
-    justifyContent: "center",
+const gaya = StyleSheet.create({
+  bungkus: {
     alignItems: "center",
-    marginTop: 30,
+    paddingVertical: 25,
   },
-  grid: {
+  lapak: {
+    marginTop: 100,
+    width: 320,
     flexDirection: "row",
     flexWrap: "wrap",
-    width: 420,
     justifyContent: "center",
   },
-  image: {
-    width: 120,
-    height: 120,
-    margin: 10,
-    borderRadius: 8,
-    resizeMode: "cover",
+  foto: {
+    width: 90,
+    height: 90,
+    margin: 6,
+    borderRadius: 10,
   },
 });
