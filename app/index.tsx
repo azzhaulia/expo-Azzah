@@ -29,25 +29,20 @@ const gambarAlternatif = [
 export default function Azzah() {
   
   const [imageStates, setImageStates] = useState(
-    Array(9).fill({ clicked: false, scale: 1.0, clickCount: 0 })
+    gambarUtama.map(() => ({ clicked: false, scale: 1.0 }))
   );
 
- 
-  const handlePress = (index: number) => {
-    setImageStates((prevStates) =>
-      prevStates.map((state, i) => {
-        if (i === index && state.clickCount < 5) {
-          const updatedClick = state.clickCount + 1;
-          const updatedScale = 1.0 + 0.2 * updatedClick;
 
-          return {
-            clicked: true,
-            scale: updatedScale,
-            clickCount: updatedClick,
-          };
-        }
-        return state;
-      })
+  const handlePress = (index: number) => {
+    setImageStates((prev) =>
+      prev.map((item, i) =>
+        i === index
+          ? {
+              clicked: true,
+              scale: Math.min(item.scale + 0.2, 2.0), 
+            }
+          : item
+      )
     );
   };
 
@@ -55,15 +50,11 @@ export default function Azzah() {
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.grid}>
         {gambarUtama.map((item, index) => {
-          const { clicked, scale, clickCount } = imageStates[index];
+          const { clicked, scale } = imageStates[index];
           const currentImage = clicked ? gambarAlternatif[index] : item;
 
           return (
-            <Pressable
-              key={index}
-              onPress={() => handlePress(index)}
-              disabled={clickCount >= 5}
-            >
+            <Pressable key={index} onPress={() => handlePress(index)}>
               <Image
                 source={currentImage}
                 style={[styles.image, { transform: [{ scale }] }]}
@@ -76,22 +67,24 @@ export default function Azzah() {
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 20,
     alignItems: "center",
+    paddingVertical: 20,
   },
   grid: {
-    marginTop: 120,
     flexDirection: "row",
     flexWrap: "wrap",
-    width: 300,
     justifyContent: "center",
+    width: 300,
+    marginTop: 150,
   },
   image: {
     width: 90,
     height: 90,
     margin: 5,
-    borderRadius: 10,
+    borderRadius: 8,
+    backgroundColor: "#eee",
   },
 });
