@@ -14,6 +14,7 @@ const gambarUtama = [
   require("../assets/images/Gambar_utama/Gambar_9.jpg"),
 ];
 
+
 const gambarAlternatif = [
   require("../assets/images/Gambar_alternatif/Gambar_1.jpg"),
   require("../assets/images/Gambar_alternatif/Gambar_2.jpeg"),
@@ -27,31 +28,33 @@ const gambarAlternatif = [
 ];
 
 export default function Azzah() {
-  
+
   const [imageStates, setImageStates] = useState(
-    gambarUtama.map(() => ({ clicked: false, scale: 1.0 }))
+    Array(gambarUtama.length).fill({ clicked: false, scale: 1.0 })
   );
 
 
   const handlePress = (index: number) => {
-    setImageStates((prev) =>
-      prev.map((item, i) =>
-        i === index
-          ? {
-              clicked: true,
-              scale: Math.min(item.scale + 0.2, 2.0), 
-            }
-          : item
-      )
+    setImageStates((prevStates) =>
+      prevStates.map((state, i) => {
+        if (i === index) {
+          
+          const newScale = Math.min(state.scale + 0.2, 2.0);
+          return { clicked: true, scale: newScale };
+        } else {
+       
+          return { clicked: false, scale: 1.0 };
+        }
+      })
     );
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.grid}>
-        {gambarUtama.map((item, index) => {
+        {gambarUtama.map((gambar, index) => {
           const { clicked, scale } = imageStates[index];
-          const currentImage = clicked ? gambarAlternatif[index] : item;
+          const currentImage = clicked ? gambarAlternatif[index] : gambar;
 
           return (
             <Pressable key={index} onPress={() => handlePress(index)}>
@@ -67,24 +70,22 @@ export default function Azzah() {
   );
 }
 
-
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
     paddingVertical: 20,
+    alignItems: "center",
   },
   grid: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
-    width: 300,
-    marginTop: 150,
+    maxWidth: 320,
+    marginTop: 120,
   },
   image: {
     width: 90,
     height: 90,
     margin: 5,
-    borderRadius: 8,
-    backgroundColor: "#eee",
+    borderRadius: 10,
   },
 });
