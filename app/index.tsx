@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { ScrollView, View, Image, StyleSheet, Pressable } from "react-native";
+import { View, Image, StyleSheet, Pressable, ScrollView } from "react-native";
 
-const sumberAsli = [
+
+const gambarUtama = [
   require("../assets/images/Gambar_utama/Gambar_1.jpg"),
   require("../assets/images/Gambar_utama/Gambar_2.webp"),
   require("../assets/images/Gambar_utama/Gambar_3.webp"),
@@ -13,7 +14,7 @@ const sumberAsli = [
   require("../assets/images/Gambar_utama/Gambar_9.jpg"),
 ];
 
-const versiAlternatif = [
+const gambarAlternatif = [
   require("../assets/images/Gambar_alternatif/Gambar_1.jpg"),
   require("../assets/images/Gambar_alternatif/Gambar_2.jpeg"),
   require("../assets/images/Gambar_alternatif/Gambar_3.jpg"),
@@ -25,58 +26,47 @@ const versiAlternatif = [
   require("../assets/images/Gambar_alternatif/Gambar_9.jpg"),
 ];
 
-export default function GaleriInteraktif() {
-  const jumlahGambar = 9;
-  const inisialisasi = Array(jumlahGambar).fill({
-    sudahKlik: false,
-    ukuran: 1,
-    totalKlik: 0,
-  });
+export default function Azzah() {
+  
+  const [imageStates, setImageStates] = useState(
+    Array(9).fill({ clicked: false, scale: 1.0, clickCount: 0 })
+  );
 
-  const [statusGambar, setStatusGambar] = useState(inisialisasi);
+ 
+  const handlePress = (index: number) => {
+    setImageStates((prevStates) =>
+      prevStates.map((state, i) => {
+        if (i === index && state.clickCount < 5) {
+          const updatedClick = state.clickCount + 1;
+          const updatedScale = 1.0 + 0.2 * updatedClick;
 
-  const ubahStatusGambar = (posisi: number) => {
-    setStatusGambar((dataLama) =>
-      dataLama.map((data, idx) => {
-        if (idx === posisi) {
-          if (data.totalKlik < 2) {
-            return {
-              sudahKlik: true,
-              ukuran: 1 + 0.2 * (data.totalKlik + 1),
-              totalKlik: data.totalKlik + 1,
-            };
-          }
-          return data;
-        } else {
-          return { sudahKlik: false, ukuran: 1, totalKlik: 0 };
+          return {
+            clicked: true,
+            scale: updatedScale,
+            clickCount: updatedClick,
+          };
         }
+        return state;
       })
     );
   };
 
   return (
-    <ScrollView contentContainerStyle={gaya.bungkus}>
-      <View style={gaya.lapak}>
-        {sumberAsli.map((foto, idx) => {
-          const kondisi = statusGambar[idx];
-          const yangDitampilkan = kondisi.sudahKlik
-            ? versiAlternatif[idx]
-            : foto;
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.grid}>
+        {gambarUtama.map((item, index) => {
+          const { clicked, scale, clickCount } = imageStates[index];
+          const currentImage = clicked ? gambarAlternatif[index] : item;
 
           return (
             <Pressable
-              key={idx}
-              onPress={() => ubahStatusGambar(idx)}
-              disabled={kondisi.totalKlik >= 2}
+              key={index}
+              onPress={() => handlePress(index)}
+              disabled={clickCount >= 5}
             >
               <Image
-                source={yangDitampilkan}
-                style={[
-                  gaya.foto,
-                  {
-                    transform: [{ scale: kondisi.ukuran }],
-                  },
-                ]}
+                source={currentImage}
+                style={[styles.image, { transform: [{ scale }] }]}
               />
             </Pressable>
           );
@@ -86,22 +76,22 @@ export default function GaleriInteraktif() {
   );
 }
 
-const gaya = StyleSheet.create({
-  bungkus: {
+const styles = StyleSheet.create({
+  container: {
+    paddingVertical: 20,
     alignItems: "center",
-    paddingVertical: 25,
   },
-  lapak: {
-    marginTop: 100,
-    width: 320,
+  grid: {
+    marginTop: 120,
     flexDirection: "row",
     flexWrap: "wrap",
+    width: 300,
     justifyContent: "center",
   },
-  foto: {
+  image: {
     width: 90,
     height: 90,
-    margin: 6,
+    margin: 5,
     borderRadius: 10,
   },
 });
