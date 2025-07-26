@@ -1,38 +1,81 @@
 import { ScrollView, Text } from "react-native";
 
+const data = [
+  { name: "FIFIANA", 
+    nim: "105841104522",
+    font: "B612-Italic", 
+    size: 12 },
+  {
+    name: "Muh. Akbar Haeruddin",
+    nim: "105841104622",
+    font: "Fenix-Regular",
+    size: 14,
+  },
+  {
+    name: "AGUSTIANA",
+    nim: "105841104722",
+    font: "Gupter-Medium",
+    size: 16,
+  },
+  {
+    name: "Dia Rahmatillah",
+    nim: "105841104822",
+    font: "Marvel-Bold",
+    size: 18,
+  },
+  {
+    name: "Juliani",
+    nim: "105841104922",
+    font: "Sniglet-ExtraBold",
+    size: 20,
+  },
+  {
+    name: "Azzah Aulia Syarif",
+    nim: "105841105022",
+    font: "Alkatra-VariableFont",
+    size: 24,
+  },
+  {
+    name: "Syauqiyah Mujahidah Yahya",
+    nim: "105841105122",
+    font: "ExpletusSans-VariableFont",
+    size: 26,
+  },
+  {
+    name: "Mar'atul Azizah",
+    nim: "105841105222",
+    font: "HostGrotesk-VariableFont",
+    size: 28,
+  },
+  {
+    name: "Fikrah Lejahtegis",
+    nim: "105841105322",
+    font: "InclusiveSans-VariableFont",
+    size: 30,
+  },
+  {
+    name: "Alya Anandha",
+    nim: "105841105422",
+    font: "PlaywriteAUSA-VariableFont",
+    size: 36,
+  },
+];
+
 export default function Index() {
   return (
     <ScrollView contentContainerStyle={{ padding: 10 }}>
-      <Text style={{ fontFamily: "B612-Italic", fontSize: 12 }}>
-        FIFIANA {"\n"} 105841104522
-      </Text>
-      <Text style={{ fontFamily: "Fenix-Regular", fontSize: 14 }}>
-        Muh. Akbar Haeruddin {"\n"} 105841104622
-      </Text>
-      <Text style={{ fontFamily: "Gupter-Medium", fontSize: 16 }}>
-        AGUSTIANA {"\n"} 105841104722
-      </Text>
-      <Text style={{ fontFamily: "Marvel-Bold", fontSize: 18 }}>
-        Dia Rahmatillah {"\n"} 105841104822
-      </Text>
-      <Text style={{ fontFamily: "Sniglet-ExtraBold", fontSize: 20 }}>
-        Juliani {"\n"} 105841104922
-      </Text>
-      <Text style={{ fontFamily: "Alkatra-VariableFont", fontSize: 24 }}>
-        Syauqiyah Mujahidah Yahya {"\n"} 105841105122
-      </Text>
-      <Text style={{ fontFamily: "ExpletusSans-VariableFont", fontSize: 26 }}>
-        Mar'atul Azizah {"\n"} 105841105222
-      </Text>
-      <Text style={{ fontFamily: "HostGrotesk-VariableFont", fontSize: 28 }}>
-        Fikrah Lejahtegis {"\n"} 105841105322
-      </Text>
-      <Text style={{ fontFamily: "InclusiveSans-VariableFont", fontSize: 30 }}>
-        Alya Anandha {"\n"} 105841105422
-      </Text>
-      <Text style={{ fontFamily: "PlaywriteAUSA-VariableFont", fontSize: 36 }}>
-        M. Fikri Haikal Ayatullah {"\n"} 105841105522
-      </Text>
+      {data.map((item, index) => (
+        <Text
+          key={index}
+          style={{
+            fontFamily: item.font,
+            fontSize: item.size,
+            marginBottom: 12,
+          }}
+        >
+          {item.name + "\n" + item.nim}
+        </Text>
+      ))}
     </ScrollView>
   );
 }
