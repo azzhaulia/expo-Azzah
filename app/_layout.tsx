@@ -1,7 +1,9 @@
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import { TouchableOpacity, View } from "react-native";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -30,5 +32,38 @@ export default function RootLayout() {
     return null;
   }
 
-  return <Stack />;
+  // return ( <Stack screenOptions={{
+  //   header: ({ navigation, options, route, back }) => (
+  //     <View
+  //       style={{
+  //         height: 60,
+  //         backgroundColor: "#f8f8f8",
+  //         justifyContent: "center",
+  //         alignItems: "flex-start",
+  //       }}
+  //     >
+  //       <TouchableOpacity onPress={() => 
+  //        navigation.navigate("index")}
+  //         style={{
+  //           width: 60,
+  //           marginLeft: 10,
+  //         }}
+  //       >
+  //         <FontAwesome name="home" size={24} color="black" />
+  //       </TouchableOpacity>
+  //     </View>
+  //   ),
+  // }} />
+  // );
+
+  return (
+   <Stack>
+      <Stack.Screen
+        name="tabs"
+        options={{
+          headerShown: false,
+        }}
+      />
+   </Stack>
+  );
 }
