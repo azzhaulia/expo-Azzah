@@ -1,6 +1,7 @@
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+
 import { Tabs } from "expo-router";
 
 export default function TabsLayout() {
@@ -13,7 +14,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="user/[id]"
         options={{
-          title: "user",
+          title: "Mahasiswa Detail",
           href: null,
         }}
       />
@@ -28,11 +29,11 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="about"
+        name="mahasiswa"
         options={{
-          title: "About",
+          title: "Mahasiswa",
           tabBarIcon: ({ color, size }) => (
-            <EvilIcons name="user" size={30} color="black" />
+            <Ionicons name="people-circle" size={24} color="black" />
           ),
         }}
       />

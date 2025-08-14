@@ -2,7 +2,14 @@ import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, router } from "expo-router";
 import React from "react";
-import {Image,ScrollView,StyleSheet,Text,TouchableOpacity,View,} from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function Index() {
   return (
@@ -135,7 +142,7 @@ export default function Index() {
         ].map((program, index) => (
           <View key={index} style={styles.programCard}>
             <Image
-              source={require("../../assets/images/logo.jpg")} 
+              source={require("../../assets/images/logo.jpg")}
               style={styles.programImage}
             />
             <Text style={styles.programTitleCard}>{program.title}</Text>
@@ -145,7 +152,6 @@ export default function Index() {
               {program.title} dapat ditemukan di sini:
             </Text>
             <Text style={styles.programCount}>{program.count}</Text>
-           
           </View>
         ))}
       </View>
